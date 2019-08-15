@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2019 XEBIALABS
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-->
+
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+  <type type="cherwell.Server" extends="configuration.HttpConnection" label="Cherwell: Server">
+        <property name="scriptLocation" default="cherwell/TestConnection.py" hidden="true" />
+        <property name="url" required="false" label="Cherwell URL" description="HTTP(S) Url of Cherwell on which you wish to operate, ex. https://yourserver.com/CherwellAPI" />
+        <property name="authMode" label="Authentication Method" kind="enum" required="true">
+            <enum-values>
+               <value>Internal</value>
+               <value>LDAP</value>
+            </enum-values>
+        </property>
+        <property name="username" required="false" category="Authentication"/>
+        <property name="password" password="true" required="false" label="Password" category="Authentication" />
+        <property name="apiKey" password="true" required="false" label="Api Key" category="Authentication" />
+        <property name="enableSslVerification" kind="boolean" category="Authentication" default="false" />
+
+        <property name="proxyHost" required="false" category="Proxy" />
+        <property name="proxyPort" required="false" category="Proxy" />
+        <property name="proxyUsername" required="false" category="Proxy" />
+        <property name="proxyPassword" password="true" required="false" category="Proxy" />
+    </type>
+
+    <type type="cherwell.Task" extends="xlrelease.PythonScript" virtual="true">
+        <property name="iconLocation" default="cherwell/cherwell.png" hidden="true"/>
+        <property name="taskColor" hidden="true" default="#AA217E"/>
+
+        <property name="server" category="input" label="Server" referenced-type="cherwell.Server" kind="ci"
+                  description="The Cherwell server to connect to."/>
+    </type>
+
+    <type type="cherwell.GetTeams" extends="cherwell.Task" label="Get Teams" >
+        <property name="teams" category="output" kind="map_string_string" description="A map containing id and name of each team" />
+    </type>
+
+    <type type="cherwell.CreateBusinessObject" extends="cherwell.Task" label="Create Business Object" >
+        <property name="businessObjectJson" category="input" kind="string" required="true" description="Business object JSON" />
+        <property name="businessObjectPublicId" category="output" kind="string" description="The resulting created business object public id" />
+        <property name="businessObjectRecId" category="output" kind="string" description="The resulting created business object record id" />
+    </type>
+
+    <type type="cherwell.PollStatus" extends="cherwell.Task" label="Poll Business Object Status">
+        <property name="businessObjectId" category="input"/>
+        <!--<property name="businessObjectRecId" category="input" label="Business Object Record Id"/>-->
+        <property name="businessObjectPublicId" category="input" label="Business Object Public Id"/>
+        <property name="statusFieldName" category="input" description="Name of the status field"/>
+        <property name="expectedStatusList" category="input" kind="list_of_string"  description="List one or more expected statuses to check for" default=""/>
+        <property name="pollInterval" category="input" kind="integer" description="Time in seconds between each polling action" default="30" />
+        <property name="pollTimeoutCount" category="input" kind="integer" description="Number of times to poll before declaring a timeout failure" default="1000" 
+            label="Number of times to poll before timeout failure"/>
+        <property name="statusResult" category="output" kind="string" description="The expected status that was returned" label="Final Retrieved Status" />
+    </type>
+
+   <type type="cherwell.GetBusinessObjectRecord" extends="cherwell.Task" label="Get Business Object Record" >
+        <property name="businessObjectId" category="input" kind="string" required="true" description="Business object id of the business object" />
+        <property name="businessObjectPublicId" category="input" kind="string" description="The business object public id" />
+        <property name="fields" category="output" kind="map_string_string" description="A map containing field names and values to be set" />
+        <property name="businessObjectRecId" category="output" kind="string" description="The record id for this business object" />
+    </type>
+
+    <type type="cherwell.UpdateBusinessObject" extends="cherwell.Task" label="Update Business Object" >
+        <property name="businessObjectId" category="input" kind="string" required="true" description="Business object id of the business object" />
+        <property name="businessObjectPublicId" category="input" kind="string" description="The business object public id" />
+        <property name="fields" category="input" kind="map_string_string" description="A map containing field names and values to be set" />
+        <property name="businessObjectRecId" category="output" kind="string" description="The resulting updated business object record id" />
+    </type>
+
+
+</synthetic>
