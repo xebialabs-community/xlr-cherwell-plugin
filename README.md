@@ -4,6 +4,7 @@
 [![License: MIT][xlr-cherwell-plugin-license-image]][xlr-cherwell-plugin-license-url]
 ![Github All Releases][xlr-cherwell-plugin-downloads-image]
 
+![logo](images/cherwell.png)
 
 
 ## Preface
