@@ -17,13 +17,12 @@ repositories {
   mavenCentral()
   maven {
     url 'https://dist.xebialabs.com/public/maven2'
-  } }
+  } 
+}
 
 
 version = "1.0.0"
 
-// sourceCompatibility = 1.7
-// targetCompatibility = 1.7
 
 xlDocker {
   compileImage = 'xebialabsunsupported/xlr_dev_compile'

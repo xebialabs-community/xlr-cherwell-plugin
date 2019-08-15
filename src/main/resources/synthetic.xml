@@ -65,7 +65,7 @@
         <property name="statusResult" category="output" kind="string" description="The expected status that was returned" label="Final Retrieved Status" />
     </type>
 
-   <type type="cherwell.GetBusinessObjectRecord" extends="cherwell.Task" label="Get Business Object Record" >
+   <type type="cherwell.GetBusinessObjectRecord" extends="cherwell.Task" label="Get Business Object" >
         <property name="businessObjectId" category="input" kind="string" required="true" description="Business object id of the business object" />
         <property name="businessObjectPublicId" category="input" kind="string" description="The business object public id" />
         <property name="fields" category="output" kind="map_string_string" description="A map containing field names and values to be set" />

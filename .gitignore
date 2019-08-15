@@ -1,0 +1,10 @@
+temp
+.gradle
+.vscode
+.idea
+build
+supervisord.*
+.classpath
+.project
+.settings/
+bin/
