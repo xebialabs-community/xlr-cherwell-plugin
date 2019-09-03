@@ -97,7 +97,7 @@ This task polls a Business Object field and looks for an expected value change. 
 ## References
 
 * [Cherwell API](https://cherwellsupport.com/WebHelp/csm/en/9.2/content/system_administration/rest_api/csm_rest_api_landing_page.html)
-* [Swagger UI](https://cherwellsupport.com/CherwellAPI/Swagger/ui/index)
+* [Swagger - Cherwell Rest API](https://cherwellsupport.com/CherwellAPI/Swagger/ui/index)
 
 
 [xlr-cherwell-plugin-travis-image]: https://travis-ci.org/xebialabs-community/xlr-cherwell-plugin.svg?branch=master

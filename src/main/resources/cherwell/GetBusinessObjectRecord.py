@@ -14,8 +14,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 cherwell_client = CherwellClient(server)
-response = cherwell_client.get_business_object_record(businessObjectId, businessObjectPublicId)
+response = cherwell_client.get_business_object(businessObjectId, businessObjectRecId, False)
 fields = {}
 for field in response['fields']:
     fields[field['name']] = field['value']
-businessObjectRecId=response['busObRecId']
+businessObjectPublicId=response['busObPublicId']

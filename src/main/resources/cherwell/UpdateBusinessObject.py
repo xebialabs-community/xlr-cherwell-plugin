@@ -14,5 +14,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 cherwell_client = CherwellClient(server)
-response = cherwell_client.update_business_object_record(businessObjectId, businessObjectPublicId, fields)
-businessObjectRecId=response['busObRecId']
+response = cherwell_client.update_business_object_record(businessObjectId, businessObjectRecId, fields)
+updatedBusObjRecId=response['busObRecId']
+updatedBusObjPubId=response['busObPublicId']

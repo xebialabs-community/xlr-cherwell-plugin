@@ -67,16 +67,18 @@
 
    <type type="cherwell.GetBusinessObjectRecord" extends="cherwell.Task" label="Get Business Object" >
         <property name="businessObjectId" category="input" kind="string" required="true" description="Business object id of the business object" />
-        <property name="businessObjectPublicId" category="input" kind="string" description="The business object public id" />
+        <property name="businessObjectRecId" category="input" kind="string" description="The business object record id" />
         <property name="fields" category="output" kind="map_string_string" description="A map containing field names and values to be set" />
-        <property name="businessObjectRecId" category="output" kind="string" description="The record id for this business object" />
+        <property name="businessObjectPublicId" category="output" kind="string" description="The public id for this business object" />
     </type>
 
     <type type="cherwell.UpdateBusinessObject" extends="cherwell.Task" label="Update Business Object" >
         <property name="businessObjectId" category="input" kind="string" required="true" description="Business object id of the business object" />
-        <property name="businessObjectPublicId" category="input" kind="string" description="The business object public id" />
+        <!--<property name="businessObjectPublicId" category="input" kind="string" description="The business object public id" />-->
+        <property name="businessObjectRecId" category="input" kind="string" description="The business object record id" />
         <property name="fields" category="input" kind="map_string_string" description="A map containing field names and values to be set" />
-        <property name="businessObjectRecId" category="output" kind="string" description="The resulting updated business object record id" />
+        <property name="updatedBusObjPubId" category="output" kind="string" description="The resulting updated business object public id" />
+        <property name="updatedBusObjRecId" category="output" kind="string" description="The resulting updated business object record id" />
     </type>
 
 

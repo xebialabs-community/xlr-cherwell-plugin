@@ -54,8 +54,10 @@ class CherwellClient(object):
             sys.exit(1)
         return data
 
-    def get_business_object_record(self, business_object_id, business_object_public_id):
-        cherwell_api_url = "/api/V1/getbusinessobject/busobid/%s/publicid/%s" % (business_object_id, business_object_public_id)
+    def get_business_object(self, business_object_id, business_identifier, usePublicId):
+        url_record = "/api/V1/getbusinessobject/busobid/%s/busobrecid/%s" % (business_object_id, business_identifier)
+        url_public = "/api/V1/getbusinessobject/busobid/%s/publicid/%s" % (business_object_id, business_identifier)
+        cherwell_api_url = url_public if usePublicId else url_record
         cherwell_response = self.http_request.get_request(
             cherwell_api_url, additional_headers={"Accept": "application/json"})
         cherwell_response.raise_for_status()
@@ -67,15 +69,16 @@ class CherwellClient(object):
             sys.exit(1)      
         return data
 
-    def update_business_object_record(self, business_object_id, business_object_public_id, fields):
-        data = self.get_business_object_record(business_object_id, business_object_public_id)
+    def update_business_object_record(self, business_object_id, business_object_record_id, fields):
+        data = self.get_business_object(business_object_id, business_object_record_id, False)
         fields_data = data['fields']
         for item in fields_data:
             logger.debug("Name = %s, Value = %s" % (item['name'], item['value'])) 
             testField = fields.get(item['name'])
             if testField:
                 item['value'] = fields[item['name']]
-                logger.debug("New value has been set for field %s" % item['name'])
+                item['dirty'] = True
+                logger.debug("New value has been set for field %s, dirty has been set to %s" % (item['name'], item['dirty']))
         bus_obj_json = json.dumps(data)
         logger.debug("Updated business object about to be saved: %s" % bus_obj_json)
         return self.save_business_object(bus_obj_json)
@@ -89,7 +92,7 @@ class CherwellClient(object):
         while pollingCount < poll_timeout_count and not foundExpectedValue:
             pollingInterval = int(poll_interval)
             time.sleep(pollingInterval)
-            data = self.get_business_object_record(bus_ob_id, bus_ob_public_id)
+            data = self.get_business_object(bus_ob_id, bus_ob_public_id, True)
             fields_data = data['fields']
             for item in fields_data:
                 logger.debug("Name = %s, Value = %s" % (item['name'], item['value'])) 
