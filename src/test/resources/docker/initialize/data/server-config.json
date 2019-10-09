@@ -2,7 +2,7 @@
   "id": "Configuration/Custom/cherwell",
   "type":"cherwell.Server",
   "title": "Cherwell Server",
-  "url": "http://cherwell:5000",
+  "url": "http://mockserver:5000",
   "authMode":"LDAP",
   "username": "USERNAME",
   "password":"PASSWORD",

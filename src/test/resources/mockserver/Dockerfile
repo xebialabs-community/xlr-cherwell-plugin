@@ -8,12 +8,12 @@ RUN pip install --upgrade pip
 RUN pip install flask
 RUN mkdir /cherwell
 
-ENV FLASK_APP=/cherwell/app.py
+ENV FLASK_APP=/mockserver/app.py
 ENV FLASK_ENV=development
 
-COPY cherwell /cherwell
+COPY app /mockserver
 
-VOLUME /cherwell
+VOLUME /mockserver
 
 EXPOSE 5000
 

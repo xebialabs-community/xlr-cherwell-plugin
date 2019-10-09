@@ -55,7 +55,6 @@
 
     <type type="cherwell.PollStatus" extends="cherwell.Task" label="Poll Business Object Status">
         <property name="businessObjectId" category="input"/>
-        <!--<property name="businessObjectRecId" category="input" label="Business Object Record Id"/>-->
         <property name="businessObjectPublicId" category="input" label="Business Object Public Id"/>
         <property name="statusFieldName" category="input" description="Name of the status field"/>
         <property name="expectedStatusList" category="input" kind="list_of_string"  description="List one or more expected statuses to check for" default=""/>
@@ -74,7 +73,6 @@
 
     <type type="cherwell.UpdateBusinessObject" extends="cherwell.Task" label="Update Business Object" >
         <property name="businessObjectId" category="input" kind="string" required="true" description="Business object id of the business object" />
-        <!--<property name="businessObjectPublicId" category="input" kind="string" description="The business object public id" />-->
         <property name="businessObjectRecId" category="input" kind="string" description="The business object record id" />
         <property name="fields" category="input" kind="map_string_string" description="A map containing field names and values to be set" />
         <property name="updatedBusObjPubId" category="output" kind="string" description="The resulting updated business object public id" />

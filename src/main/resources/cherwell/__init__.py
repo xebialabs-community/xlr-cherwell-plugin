@@ -14,7 +14,7 @@ import os
 LOG_FILENAME = 'log/cherwell-plugin.log'
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 handler = logging.handlers.RotatingFileHandler(
               LOG_FILENAME, maxBytes=1000000, backupCount=1)
 formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')

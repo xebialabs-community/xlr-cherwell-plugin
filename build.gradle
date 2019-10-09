@@ -1,10 +1,7 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
 plugins {
   id "com.github.hierynomus.license" version "0.14.0"
   id "com.xebialabs.xldp" version "1.0.5"
   id 'nebula.release' version '6.0.0'
-  id "com.xebialabs.xl.docker" version "1.1.0"
 }
 
 apply plugin: 'eclipse'
@@ -20,15 +17,6 @@ repositories {
   } 
 }
 
-
-xlDocker {
-  compileImage = 'xebialabsunsupported/xlr_dev_compile'
-  compileVersion = 'v8.0.0.1'
-  runImage = 'xebialabsunsupported/xlr_dev_run'
-  runVersion = 'v8.0.0.2'
-  runPortMapping = '15516:5516'
-}
-
 if (!project.hasProperty('release.scope')) {
   project.ext['release.scope'] = 'patch'
 }
@@ -37,12 +25,47 @@ if (!project.hasProperty('release.useLastTag')) {
   project.ext['release.useLastTag'] = true
 }
 
-processResources.configure {
-  filter ReplaceTokens, tokens: [
-    'project.version': version.toString(),
-    'project.name'   : rootProject.name
-  ]
+test {
+    // Auto detected Unit tests only, exclude the end to end integration test
+    exclude '**/*IntegrationTest.class'
+    
+    // show standard out and standard error of the test JVM(s) on the console
+    testLogging.showStandardStreams = true
 }
+ 
+
+task integrationTest(type: Test, dependsOn: ['build']) {
+    // do not automatically scan for tests
+    scanForTestClasses = false 
+    // explicitly include the integration test
+    include '**/*IntegrationTest.class'
+    // To run tests - 
+    // 1. Docker  and Docker Compose must be installed 
+    // 2. The XL-Release image expects to find a valid XL-Release license here: ~/xl-licenses/xl-release-license.lic
+    // 3. To run the test - ./gradlew clean integrationTest
+    //   The test will set up a temporary xlr/mockserver testbed using docker. The mockserver
+    //   will serve up the property or yaml files
+    // After testing is complete, the test docker containers are stopped and removed. 
+
+    // show standard out and standard error of the test JVM(s) on the console
+    testLogging.showStandardStreams = true
+}
+
+dependencies {
+  // Place rest-assured before JUnit dependency to make sure correct Hamcrest is used
+  testCompile 'io.rest-assured:rest-assured:3.2.0'
+  testCompile "junit:junit:4.11"
+  testCompile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+  testCompile 'org.assertj:assertj-core:3.6.2'
+  testCompile "org.testcontainers:testcontainers:1.11.3"
+  testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.8.0-beta2'
+  testCompile group: 'org.skyscreamer', name: 'jsonassert', version: '1.5.0'
+
+  compile 'com.google.guava:guava:23.0'
+
+  compile group: 'org.yaml', name: 'snakeyaml', version: '1.24'
+}
+
 
 license {
   header rootProject.file('License.md')
@@ -51,7 +74,4 @@ license {
   ext.name = 'XEBIALABS'
   exclude '**/Dockerfile'
   exclude '**/*.json'
-  exclude '**/swagger_client/*.py'
-  exclude '**/swagger_client/api/*.py'
-  exclude '**/swagger_client/models/*.py'
 }

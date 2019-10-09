@@ -44,7 +44,7 @@ def handle_auth_error(ex):
     return response
 
 def getFile( fileName ):
-     filePath="/cherwell/responses/%s" % fileName
+     filePath="/mockserver/responses/%s" % fileName
      F = open(filePath, "r")
      resp = make_response( F.read() )
      resp.headers['Content-Type'] = 'application/json'

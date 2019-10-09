@@ -99,6 +99,55 @@ This task polls a Business Object field and looks for an expected value change. 
 * [Cherwell API](https://cherwellsupport.com/WebHelp/csm/en/9.2/content/system_administration/rest_api/csm_rest_api_landing_page.html)
 * [Swagger - Cherwell Rest API](https://cherwellsupport.com/CherwellAPI/Swagger/ui/index)
 
+## Develop and Demo
+
+Build and package the plugin with...
+
+```bash
+./gradlew clean build
+```
+
+### To run integration tests - 
+1.  You will need to have Docker and Docker Compose installed 
+2.  The XL-Release image expects to find a valid XL-Release license on your machine, at this location: ~xl-licenses/xl-release-license.lic
+3.  Open a terminal in the root of the xlr-cherwell-plugin project and run the test - 
+
+```bash
+./gradlew clean integrationTest
+```
+    
+The test will set up a temporary xlr/mockserver testbed using docker. NOTE: The integration tests take about 5 minutes to run. 
+1. The mock server is used to act as a stand-in for a Cherwell server. The mockserver will send Cherwell-like responses to XL Release requests.
+2. After testing is complete, the test docker containers are stopped and removed. 
+
+### To run demo or dev version (set up the docker containers and leave them running) -
+1.  For requirements, see the 'To run integration tests' above
+2.  Build the xlr-cherwell-plugin.jar - Open a terminal and cd into <xlr-cherwell-plugin code base> and run ./gradlew clean build . Be sure to re-run the command whenever code is changed. 
+3.  From another terminal, cd into the <xlr-cherwell-plugin code base>/src/test/resources/docker/  directory. 
+4.  Run (necessary the first time only): docker-compose build
+5.  Then run: docker-compose up -d 
+6.  XL Release will run on the [localhost port 15516](http://localhost:15516/). It may take up to a minute for XL Release to start up
+7.  The XL Release username / password is admin / admin
+8.  After XL Release has started, you can set up a template and shared configuration server by running the script <xlr-cherwell-plugin code base>/src/test/resources/docker/initialize/initialize_data.sh. Alternatively, follow the steps below:
+    1.  within XL Release->Settings->Shared Configurations, configure a Cherwell Host with the following attributes:
+        1.  Title -> Cherwell Server
+        2.  Url -> http://mockserver:5000
+        3.  Auth mode -> LDAP
+        4.  Username -> USERNAME
+        5.  Password -> PASSWORD
+        6.  API Key -> API_KEY
+    2.  Within XL Release, navigate to the Templates page and use the import feature to import the template located here: <xlr-cherwell-plugin code base>/src/test/resources/docker/initialize/data/release-template-cherwell.json .
+9.  You can now run a release based the template named 'cherwell demo'.
+10. When code is modified, re-run the ./gradlew clean build (in the first terminal), then refresh the testbed by running docker-compose down followed by docker-compose up -d (in the second terminal) and after XL Release starts up, re-import the server configuration and the template
+
+Further Demo/Dev Notes:
+1. The log file for the plugin - cherwell-plugin.log will be persisted to the local directory <xlr-selenim-plugin code base>/build/reports/tests/log directory. You may need to modify the log configuration (located in __init__.py) to DEBUG rather than INFO
+2. The Mockserver runs on the [localhost port 5099](http://localhost:5099/)
+3. The example mockserver Cherwell responses are located in the <xlr-cherwell-plugin code base>/src/test/resources/mockserver/responses directory
+4. If you add example responses, be sure to rebuild the mockserver docker image
+
+
+
 
 [xlr-cherwell-plugin-travis-image]: https://travis-ci.org/xebialabs-community/xlr-cherwell-plugin.svg?branch=master
 [xlr-cherwell-plugin-travis-url]: https://travis-ci.org/xebialabs-community/xlr-cherwell-plugin
