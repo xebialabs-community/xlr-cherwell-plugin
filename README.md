@@ -147,8 +147,6 @@ Further Demo/Dev Notes:
 4. If you add example responses, be sure to rebuild the mockserver docker image
 
 
-
-
 [xlr-cherwell-plugin-travis-image]: https://travis-ci.org/xebialabs-community/xlr-cherwell-plugin.svg?branch=master
 [xlr-cherwell-plugin-travis-url]: https://travis-ci.org/xebialabs-community/xlr-cherwell-plugin
 [xlr-cherwell-plugin-license-image]: https://img.shields.io/badge/License-MIT-yellow.svg
