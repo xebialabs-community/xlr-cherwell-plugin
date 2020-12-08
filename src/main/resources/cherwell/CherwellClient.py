@@ -1,5 +1,5 @@
 #
-# Copyright 2019 XEBIALABS
+# Copyright 2020 XEBIALABS
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 #
@@ -67,6 +67,22 @@ class CherwellClient(object):
             print("Received error code %s" % data['errorCode'])
             print("Received error message %s" % data['errorMessage']) 
             sys.exit(1)      
+        return data
+
+    def get_business_objects(self, dataRequest):
+        endpoint = "/api/V1/getsearchresults"
+        cherwell_response = self.http_request.post_request(
+            endpoint,
+            content=dataRequest,
+            additional_headers={"Content-Type": "application/json", "Accept": "application/json"}
+        )
+        cherwell_response.raise_for_status()
+        data = cherwell_response.json()
+        logger.debug("Data from get_business_object call: %s" % data)
+        if data['hasError']:
+            print("Received error code %s" % data['errorCode'])
+            print("Received error message %s" % data['errorMessage'])
+            sys.exit(1)
         return data
 
     def update_business_object_record(self, business_object_id, business_object_record_id, fields):

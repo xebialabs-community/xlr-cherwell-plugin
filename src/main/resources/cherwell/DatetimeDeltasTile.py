@@ -1,4 +1,3 @@
-#!/bin/sh
 #
 # Copyright 2020 XEBIALABS
 #
@@ -9,26 +8,15 @@
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-set -x
-SCRIPT=$(readlink -f "$0")
-# Absolute path this script is in, thus /home/user/bin
-SCRIPTPATH=$(dirname "$SCRIPT")
-
-####################### Endever server data
+from cherwell.CherwellClient import CherwellClient
+import logging
 
 
-wget --http-user=admin --http-password=admin --auth-no-challenge \
-     --header="Accept: application/json" \
-     --header="Content-type: application/json" \
-     --post-file=$SCRIPTPATH/data/server-config.json \
-    http://localhost:15516/api/v1/config -O /dev/null
+logger = logging.getLogger(__name__)
 
-##### Insert template
-
-wget --http-user=admin --http-password=admin --auth-no-challenge \
-     --header="Accept: application/json" \
-     --header="Content-type: application/json" \
-     --post-file=$SCRIPTPATH/data/release-template-cherwell.json \
-http://localhost:15516/api/v1/templates/import -O /dev/null
-
-
+cherwell_client = CherwellClient(server)
+data = {
+    "businessObjects": cherwell_client.get_business_objects(dataRequest),
+    "startTimeField": startTimeField,
+    "endTimeField": endTimeField
+}

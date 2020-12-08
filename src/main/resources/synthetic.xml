@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2019 XEBIALABS
+    Copyright 2020 XEBIALABS
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -10,7 +10,6 @@
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -->
-
 <synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xmlns="http://www.xebialabs.com/deployit/synthetic"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
@@ -48,7 +47,7 @@
     </type>
 
     <type type="cherwell.CreateBusinessObject" extends="cherwell.Task" label="Create Business Object" >
-        <property name="businessObjectJson" category="input" kind="string" required="true" description="Business object JSON" />
+        <property name="businessObjectJson" category="input" kind="string" size="large" required="true" description="Business object JSON" />
         <property name="businessObjectPublicId" category="output" kind="string" description="The resulting created business object public id" />
         <property name="businessObjectRecId" category="output" kind="string" description="The resulting created business object record id" />
     </type>
@@ -59,7 +58,7 @@
         <property name="statusFieldName" category="input" description="Name of the status field"/>
         <property name="expectedStatusList" category="input" kind="list_of_string"  description="List one or more expected statuses to check for" default=""/>
         <property name="pollInterval" category="input" kind="integer" description="Time in seconds between each polling action" default="30" />
-        <property name="pollTimeoutCount" category="input" kind="integer" description="Number of times to poll before declaring a timeout failure" default="1000" 
+        <property name="pollTimeoutCount" category="input" kind="integer" hidden="true" description="Number of times to poll before declaring a timeout failure" default="1000" 
             label="Number of times to poll before timeout failure"/>
         <property name="statusResult" category="output" kind="string" description="The expected status that was returned" label="Final Retrieved Status" />
     </type>
@@ -79,5 +78,33 @@
         <property name="updatedBusObjRecId" category="output" kind="string" description="The resulting updated business object record id" />
     </type>
 
+    <!-- Tiles -->
+
+    <type type="cherwell.Tile" extends="xlrelease.Tile" virtual="true">
+        <property default="release,folder,global" hidden="true" name="supportedScopes" kind="list_of_string"/>
+        <property name="server" category="input" label="Server" referenced-type="cherwell.Server" kind="ci"
+                  description="The Cherwell server to connect to."/>
+    </type>
+
+    <type type="cherwell.DatetimeDeltasTile" label="Cherwell Datetime Deltas" extends="cherwell.Tile"
+          description="Visualize the datetime deltas for business object fields.">
+        <property name="uri" hidden="true" default="datetimeDeltas/index.html"/>
+        <property name="width" kind="integer" default="1"/>
+        <property name="height" kind="integer" default="1"/>
+        <property name="dataRequest" category="input" required="false" description="Optionally, provide a data request for filtering results"/>
+        <property name="startTimeField" category="input" required="true" description="The name of the start datetime field (e.g., RequestedAt).  Please provide the Name, not the Display Name"/>
+        <property name="endTimeField" category="input" required="true" description="The name of the end datetime field (e.g., CompletedAt).  Please provide the Name, not the Display Name"/>
+    </type>
+
+    <type type="cherwell.DatetimeDeltasGaugeTile" label="Cherwell Datetime Deltas Gauge" extends="cherwell.Tile"
+          description="Visualize the datetime deltas for business object fields as a speed gauge.">
+        <property name="scriptLocation" hidden="true" default="cherwell/DatetimeDeltasTile.py"/>
+        <property name="uri" hidden="true" default="datetimeDeltasGauge/index.html"/>
+        <property name="width" kind="integer" default="2"/>
+        <property name="height" kind="integer" default="2"/>
+        <property name="dataRequest" category="input" required="false" description="Optionally, provide a data request for filtering results"/>
+        <property name="startTimeField" category="input" required="true" description="The name of the start datetime field (e.g., RequestedAt).  Please provide the Name, not the Display Name"/>
+        <property name="endTimeField" category="input" required="true" description="The name of the end datetime field (e.g., CompletedAt).  Please provide the Name, not the Display Name"/>
+    </type>
 
 </synthetic>
