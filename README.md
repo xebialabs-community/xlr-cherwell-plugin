@@ -140,7 +140,7 @@ The test will set up a temporary xlr/mockserver testbed using docker. NOTE: The 
 10. When code is modified, re-run the ./gradlew clean build (in the first terminal), then refresh the testbed by running docker-compose down followed by docker-compose up -d (in the second terminal) and after XL Release starts up, re-import the server configuration and the template
 
 Further Demo/Dev Notes:
-1. The log file for the plugin - cherwell-plugin.log will be persisted to the local directory <xlr-selenim-plugin code base>/build/reports/tests/log directory. You may need to modify the log configuration (located in __init__.py) to DEBUG rather than INFO
+1. The log file for the plugin - cherwell-plugin.log will be persisted to the local directory <xlr-cherwell-plugin code base>/build/reports/tests/log directory. You may need to modify the log configuration (located in __init__.py) to DEBUG rather than INFO
 2. The Mockserver runs on the [localhost port 5099](http://localhost:5099/)
 3. The example mockserver Cherwell responses are located in the <xlr-cherwell-plugin code base>/src/test/resources/mockserver/responses directory
 4. If you add example responses, be sure to rebuild the mockserver docker image

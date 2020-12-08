@@ -9,6 +9,7 @@
 #
 
 import logging
+import logging.handlers
 import os
 
 LOG_FILENAME = 'log/cherwell-plugin.log'
