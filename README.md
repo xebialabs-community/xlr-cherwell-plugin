@@ -6,7 +6,6 @@
 
 ![logo](images/cherwell.png)
 
-
 ## Preface
 
 This document describes the functionality provided by the XL Release Cherwell plugin.
