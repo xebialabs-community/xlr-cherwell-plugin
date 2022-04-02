@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2020 XEBIALABS
+    Copyright 2022 XEBIALABS
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -17,17 +17,22 @@
   <type type="cherwell.Server" extends="configuration.HttpConnection" label="Cherwell: Server">
         <property name="scriptLocation" default="cherwell/TestConnection.py" hidden="true" />
         <property name="url" required="false" label="Cherwell URL" description="HTTP(S) Url of Cherwell on which you wish to operate, ex. https://yourserver.com/CherwellAPI" />
-        <property name="authMode" label="Authentication Method" kind="enum" required="true">
+        <property name="authMode" label="Authentication Mode" kind="enum" required="true">
             <enum-values>
                <value>Internal</value>
                <value>LDAP</value>
             </enum-values>
         </property>
-        <property name="username" required="false" category="Authentication"/>
-        <property name="password" password="true" required="false" label="Password" category="Authentication" />
+        <property name="authenticationMethod" label="Authentication Method" kind="enum" enum-class="com.xebialabs.xlrelease.domain.configuration.HttpConnection$AuthenticationMethod" default="Basic">
+            <enum-values>
+                <value>Basic</value>
+                <value>PAT</value>
+            </enum-values>
+        </property>
+        <property name="authenticationMethod_DependentProperties" category="Authentication" kind="map_string_string" hidden="true" required="false"
+            default="Basic:username;password,PAT:apiKey" />
         <property name="apiKey" password="true" required="false" label="Api Key" category="Authentication" />
         <property name="enableSslVerification" kind="boolean" category="Authentication" default="false" />
-
         <property name="proxyHost" required="false" category="Proxy" />
         <property name="proxyPort" required="false" category="Proxy" />
         <property name="proxyUsername" required="false" category="Proxy" />
@@ -58,7 +63,7 @@
         <property name="statusFieldName" category="input" description="Name of the status field"/>
         <property name="expectedStatusList" category="input" kind="list_of_string"  description="List one or more expected statuses to check for" default=""/>
         <property name="pollInterval" category="input" kind="integer" description="Time in seconds between each polling action" default="30" />
-        <property name="pollTimeoutCount" category="input" kind="integer" hidden="true" description="Number of times to poll before declaring a timeout failure" default="1000" 
+        <property name="pollTimeoutCount" category="input" kind="integer" hidden="true" description="Number of times to poll before declaring a timeout failure" default="1000"
             label="Number of times to poll before timeout failure"/>
         <property name="statusResult" category="output" kind="string" description="The expected status that was returned" label="Final Retrieved Status" />
     </type>

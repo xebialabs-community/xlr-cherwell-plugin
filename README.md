@@ -16,14 +16,26 @@ See the [XL Release reference manual](https://docs.xebialabs.com/xl-release) for
 
 ## Requirements
 
-Note:  XLR version should not be lower than lowest supported version.  See <https://support.xebialabs.com/hc/en-us/articles/115003299946-Supported-XebiaLabs-product-versions>.
-
+* Version 1.4.0 requires XL Release 10.1+.
+*
 ## Installation
 
 * Copy the latest JAR file from the [releases page](https://github.com/xebialabs-community/xlr-cherwell-plugin/releases) into the `XL_RELEASE_SERVER/plugins/__local__` directory.
 * Restart the XL Release server.
 
 ## Features/Usage/Types/Tasks
+
+### Cherwell server
+
+With Authentication Method = Basic
+
+![cherwell_server_basic_auth](images/cherwell_server_basic_auth.png)
+
+With Authentication Method = PAT (personal access token)
+
+![cherwell_server_pat_auth](images/cherwell_server_pat_auth.png)
+
+### Tasks
 
 ![cherwell_tasks](images/Cherwell_Tasks.png)
 
