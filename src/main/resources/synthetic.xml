@@ -26,11 +26,10 @@
         <property name="authenticationMethod" label="Authentication Method" kind="enum" enum-class="com.xebialabs.xlrelease.domain.configuration.HttpConnection$AuthenticationMethod" default="Basic">
             <enum-values>
                 <value>Basic</value>
-                <value>PAT</value>
             </enum-values>
         </property>
         <property name="authenticationMethod_DependentProperties" category="Authentication" kind="map_string_string" hidden="true" required="false"
-            default="Basic:username;password,PAT:apiKey" />
+            default="Basic:username;password;apiKey" />
         <property name="apiKey" password="true" required="false" label="Api Key" category="Authentication" />
         <property name="enableSslVerification" kind="boolean" category="Authentication" default="false" />
         <property name="proxyHost" required="false" category="Proxy" />
